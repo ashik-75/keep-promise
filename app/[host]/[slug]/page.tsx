@@ -2,7 +2,63 @@ import BlurImage from "@/components/blur-image";
 import { query } from "@/lib/hashnode";
 import { PostDetails } from "@/types/post-details.types";
 import { format } from "date-fns";
+import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
+
+type Props = {
+	params: {
+		slug: string;
+		host: string;
+	};
+	searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata(
+	{ params, searchParams }: Props,
+	parent: ResolvingMetadata
+): Promise<Metadata> {
+	const { data } = await query<PostDetails>({
+		query: `
+		query ($host: String!,$slug:String!) {
+			publication(host: $host) {
+				title
+				post(slug:$slug) {
+					id
+					slug
+					title
+					coverImage {
+						url
+					}
+					author{
+						username
+						name
+						profilePicture
+					}
+					views
+					content {
+						html
+					}
+					publishedAt
+				}
+			}
+		}
+		`,
+		variables: {
+			slug: params.slug,
+			host: params.host,
+		},
+	});
+
+	// optionally access and extend (rather than replace) parent metadata
+	const previousImages = (await parent).openGraph?.images || [];
+
+	return {
+		title: data?.publication?.post.title,
+		openGraph: {
+			images: [data?.publication?.post.coverImage.url, ...previousImages],
+		},
+	};
+}
 
 const PostDetails = async ({
 	params,
