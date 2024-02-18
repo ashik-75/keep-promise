@@ -36,7 +36,7 @@ const Sidebar = () => {
 				{sites.map((site) => (
 					<li
 						className="text-zinc-500 cursor-pointer"
-						onClick={() => router.push(`?host=${site.url}`)}
+						onClick={() => router.push(`/?host=${site.url}`)}
 						key={site.url}
 					>
 						{site.title}

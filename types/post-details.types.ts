@@ -1,4 +1,4 @@
-export interface Root {
+export interface PostDetails {
 	data: Data;
 }
 
@@ -8,31 +8,30 @@ export interface Data {
 
 export interface Publication {
 	title: string;
-	posts: Posts;
-}
-
-export interface Posts {
-	edges: Edge[];
-}
-
-export interface Edge {
-	node: Post;
+	post: Post;
 }
 
 export interface Post {
 	id: string;
-	title: string;
-	views: number;
-	coverImage: CoverImage;
-	publishedAt: string;
-	author: {
-		profilePicture: string;
-		username: string;
-		name: string;
-	};
 	slug: string;
+	title: string;
+	author: Author;
+	coverImage: CoverImage;
+	views: number;
+	content: Content;
+	publishedAt: string;
+}
+
+export interface Author {
+	username: string;
+	name: string;
+	profilePicture: string;
 }
 
 export interface CoverImage {
 	url: string;
+}
+
+export interface Content {
+	html: string;
 }

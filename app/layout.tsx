@@ -24,7 +24,7 @@ export default function RootLayout({
 					" max-w-7xl mx-auto overflow-y-scroll"
 				)}
 			>
-				<nav className="w-[350px] fixed min-h-screen bg-slate-100">
+				<nav className="w-[350px] fixed min-h-screen bg-slate-50/50">
 					<Sidebar />
 				</nav>
 

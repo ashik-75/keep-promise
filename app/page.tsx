@@ -2,7 +2,7 @@ import PostList from "@/components/post-list";
 import { query } from "@/lib/hashnode";
 import { Await, sleep } from "@/lib/utils";
 import { Root } from "@/types";
-import { Loader } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import { Suspense } from "react";
 
 const Page = async ({
@@ -24,6 +24,7 @@ const Page = async ({
 							id
 							title
 							views
+							slug
 							coverImage {
 								url
 							}
@@ -54,7 +55,7 @@ const Page = async ({
 				key={host}
 				fallback={
 					<div className="min-h-screen flex items-center justify-center">
-						<Loader className="animate-spin" size={40} />
+						<Loader2 className="animate-spin" size={40} />
 					</div>
 				}
 			>
@@ -63,7 +64,7 @@ const Page = async ({
 						const serialized_posts =
 							data?.publication?.posts.edges.map((post) => post.node) || [];
 
-						return <PostList posts={serialized_posts} />;
+						return <PostList host={host} posts={serialized_posts} />;
 					}}
 				</Await>
 			</Suspense>
